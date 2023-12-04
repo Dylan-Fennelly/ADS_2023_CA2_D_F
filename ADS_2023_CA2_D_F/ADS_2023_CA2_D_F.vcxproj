@@ -131,6 +131,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ADS_2023_CA2_D_F.cpp" />
+    <ClCompile Include="FolderNode.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="FolderNode.h" />
+    <ClInclude Include="NodeType.h" />
+    <ClInclude Include="XmlNode.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
