@@ -21,6 +21,12 @@
     <ClCompile Include="FolderNode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="XmlNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FileNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="XmlNode.h">
@@ -30,6 +36,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FolderNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FileNode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

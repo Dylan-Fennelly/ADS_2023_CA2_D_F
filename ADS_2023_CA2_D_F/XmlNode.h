@@ -10,9 +10,9 @@ class XmlNode /*This is an abstrct class to hold an xml element
 public :
 	string name; //String for the name of the xml element
 
-	XmlNode(string & name) : name(name) {} // Constructor for the xml node
+	XmlNode(const string& name); // Constructor for the xml node
 
 	virtual ~XmlNode() = default; // Virtual destructor for the xml node
-	virtual NodeType getType() const = 0; /*Pure Virtual function to get the type of the node
-											(This forces the class to be treated as abstrct*/
+	virtual NodeType getType() const = 0; /*Virtual function to get the type of the node*/
+	
 };

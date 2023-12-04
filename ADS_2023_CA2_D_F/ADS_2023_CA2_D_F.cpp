@@ -4,10 +4,15 @@
 #include <iostream>
 #include "Tree.h"
 #include <string>
+#include "FolderNode.h"
+#include "NodeType.h"
+#include "FileNode.h"
 int main()
 {
-    std::cout << "Hello World!\n";
-    Tree<int> tree();
+    FolderNode test("test");
+    cout << test.getType() << endl;
+    FileNode fileTest("test", 12, ".exe");
+    cout << fileTest.getType() << endl;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
