@@ -7,12 +7,41 @@
 #include "FolderNode.h"
 #include "NodeType.h"
 #include "FileNode.h"
+#include "TreeIterator.h"
+using namespace std;
+template<class T>
+void displayTree(TreeIterator<T> iter, string indent);
+
 int main()
 {
-    FolderNode test("test");
-    cout << test.getType() << endl;
-    FileNode fileTest("test", 12, ".exe");
-    cout << fileTest.getType() << endl;
+	FolderNode* test = new FolderNode("File");
+   // cout << test.getType() << endl;
+    FileNode* fileTest = new FileNode("test", 12, ".exe");
+   // cout << fileTest.getType() << endl;
+    Tree<XmlNode*> root(test);
+    TreeIterator<XmlNode*> iter(&root);
+    iter.appendChild(fileTest);
+   // cout << iter.item()->getType() << endl;
+	iter.root();
+	displayTree(iter, "");
+}
+template<class T>
+void displayTree(TreeIterator<T> iter, string indent)
+{
+	cout << indent << iter.node->data->display();
+	if (iter.childValid())
+	{
+		cout << "(" <<endl;
+	
+	while (iter.childValid())
+	{
+		TreeIterator<T> iter2(iter.childIter.currentNode->data);
+		displayTree(iter2, "\t" + indent);
+		iter.childForth();
+	}
+	cout <<indent<< ")" ;
+	}
+	cout << endl;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

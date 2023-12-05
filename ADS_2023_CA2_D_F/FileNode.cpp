@@ -9,3 +9,7 @@ NodeType FileNode :: getType() const
 {
 	return NodeType::FILE;
 }
+string FileNode::display() const
+{
+	return "File: " + name + " " + to_string(fileLength) + "Bytes " + " " + fileType;
+}

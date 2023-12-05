@@ -14,5 +14,6 @@ public :
 
 	virtual ~XmlNode() = default; // Virtual destructor for the xml node
 	virtual NodeType getType() const = 0; /*Virtual function to get the type of the node*/
+	virtual string display() const = 0; /*Virtual function to display the node*/
 	
 };

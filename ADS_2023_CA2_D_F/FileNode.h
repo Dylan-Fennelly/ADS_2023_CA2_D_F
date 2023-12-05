@@ -7,5 +7,6 @@ public:
 	string fileType;
 	FileNode(const string& name, int length, const string& fileType);
 	NodeType getType() const override;
+	string display() const override;
 };
 

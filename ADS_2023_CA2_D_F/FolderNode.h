@@ -5,5 +5,6 @@ class FolderNode :public XmlNode
 public:
 	FolderNode(const string& name);
 	NodeType getType() const override;
+	string display () const override;
 };
 
