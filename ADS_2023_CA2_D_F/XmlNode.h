@@ -8,12 +8,12 @@ class XmlNode /*This is an abstrct class to hold an xml element
 				the xml structure could be added (follows open closed principle*/
 {
 public :
-	string name; //String for the name of the xml element
-
 	XmlNode(const string& name); // Constructor for the xml node
 
 	virtual ~XmlNode() = default; // Virtual destructor for the xml node
 	virtual NodeType getType() const = 0; /*Virtual function to get the type of the node*/
 	virtual string display() const = 0; /*Virtual function to display the node*/
 	
+protected:
+	string name; //String for the name of the xml element
 };

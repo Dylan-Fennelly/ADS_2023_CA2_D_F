@@ -133,13 +133,17 @@
     <ClCompile Include="ADS_2023_CA2_D_F.cpp" />
     <ClCompile Include="FileNode.cpp" />
     <ClCompile Include="FolderNode.cpp" />
+    <ClCompile Include="TreeManager.cpp" />
     <ClCompile Include="XmlNode.cpp" />
+    <ClCompile Include="XmlParser.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FileNode.h" />
     <ClInclude Include="FolderNode.h" />
     <ClInclude Include="NodeType.h" />
+    <ClInclude Include="TreeManager.h" />
     <ClInclude Include="XmlNode.h" />
+    <ClInclude Include="XmlParser.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

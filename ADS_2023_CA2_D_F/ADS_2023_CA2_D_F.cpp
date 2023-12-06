@@ -14,7 +14,7 @@ void displayTree(TreeIterator<T> iter, string indent);
 
 int main()
 {
-	FolderNode* test = new FolderNode("File");
+	FolderNode* test = new FolderNode("Root");
    // cout << test.getType() << endl;
     FileNode* fileTest = new FileNode("test", 12, ".exe");
    // cout << fileTest.getType() << endl;
@@ -22,6 +22,15 @@ int main()
     TreeIterator<XmlNode*> iter(&root);
     iter.appendChild(fileTest);
    // cout << iter.item()->getType() << endl;
+	FileNode* filetest2 = new FileNode("Test 2", 20, ".bat");
+	iter.appendChild(filetest2);
+	FolderNode* folder2 = new FolderNode("utils");
+	iter.appendChild(folder2);
+	iter.childForth();
+	iter.childForth();
+	iter.down();
+	FileNode* filetest3 = new FileNode("test 3", 100, ".exe");
+	iter.appendChild(filetest3);
 	iter.root();
 	displayTree(iter, "");
 }
