@@ -7,6 +7,10 @@ NodeType FolderNode::getType() const
 {
 	return NodeType::FOLDER;
 }
+string FolderNode :: getName() const
+{
+	return name;
+}
 string FolderNode::display() const
 {
 	return "Folder: " + name;

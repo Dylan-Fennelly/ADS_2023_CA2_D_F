@@ -4,8 +4,7 @@
 class XmlParser
 {
 public :
-	Tree<XmlNode*> parseXml();
-private:
-	bool validateXML();
+	Tree<XmlNode*> parseXml(string& xml);
+	bool validateXML(string& xml);
 };
 

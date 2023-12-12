@@ -134,6 +134,7 @@
     <ClCompile Include="FileNode.cpp" />
     <ClCompile Include="FolderNode.cpp" />
     <ClCompile Include="TreeManager.cpp" />
+    <ClCompile Include="XmlFileLoader.cpp" />
     <ClCompile Include="XmlNode.cpp" />
     <ClCompile Include="XmlParser.cpp" />
   </ItemGroup>
@@ -142,6 +143,7 @@
     <ClInclude Include="FolderNode.h" />
     <ClInclude Include="NodeType.h" />
     <ClInclude Include="TreeManager.h" />
+    <ClInclude Include="XmlFileLoader.h" />
     <ClInclude Include="XmlNode.h" />
     <ClInclude Include="XmlParser.h" />
   </ItemGroup>

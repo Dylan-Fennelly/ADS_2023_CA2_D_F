@@ -33,6 +33,9 @@
     <ClCompile Include="XmlParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="XmlFileLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="XmlNode.h">
@@ -51,6 +54,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="XmlParser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlFileLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

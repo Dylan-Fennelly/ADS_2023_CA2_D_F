@@ -8,6 +8,8 @@
 #include "NodeType.h"
 #include "FileNode.h"
 #include "TreeIterator.h"
+#include "XmlFileLoader.h"
+#include "XmlParser.h"
 using namespace std;
 template<class T>
 void displayTree(TreeIterator<T> iter, string indent);
@@ -33,6 +35,16 @@ int main()
 	iter.appendChild(filetest3);
 	iter.root();
 	displayTree(iter, "");
+	
+	XmlParser parser;
+
+
+	XmlFileLoader loader;
+	string filename = "E:\\Projects\\C++\\ADS_2023_CA2_D_F\\XmlFiles\\vs_sample_simple.xml";
+	string xml = loader.loadFile(filename);
+	
+	cout << xml << endl;
+	cout <<boolalpha<< parser.validateXML(xml) << endl;
 }
 template<class T>
 void displayTree(TreeIterator<T> iter, string indent)

@@ -5,6 +5,8 @@ class FileNode : public XmlNode
 public:
 	FileNode(const string& name, int length, const string& fileType);
 	NodeType getType() const override;
+	int getFileLength() const;
+	string getFileType() const;
 	string display() const override;
 protected:
 	int fileLength;

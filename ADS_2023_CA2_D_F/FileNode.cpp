@@ -13,3 +13,11 @@ string FileNode::display() const
 {
 	return "File: " + name + " " + to_string(fileLength) + "Bytes " + " " + fileType;
 }
+int FileNode::getFileLength() const
+{
+	return fileLength;
+}
+string FileNode::getFileType() const
+{
+	return fileType;
+}
