@@ -21,3 +21,18 @@ string FileNode::getFileType() const
 {
 	return fileType;
 }
+
+void FileNode::setName(const string& name)
+{
+	this->name = name;
+}
+
+void FileNode::setFileLength(int length)
+{
+	this->fileLength = length;
+}
+
+void FileNode::setFileType(const string& fileType)
+{
+this->fileType = fileType;
+}

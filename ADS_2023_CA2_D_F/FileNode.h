@@ -7,8 +7,10 @@ public:
 	NodeType getType() const override;
 	int getFileLength() const;
 	string getFileType() const;
+	void setName(const string& name) override;
+	void setFileLength(int length);
+	void setFileType(const string& fileType);
 	string display() const override;
-protected:
 	int fileLength;
 	string fileType;
 };

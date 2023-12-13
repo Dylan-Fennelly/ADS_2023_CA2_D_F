@@ -40,11 +40,22 @@ int main()
 
 
 	XmlFileLoader loader;
-	string filename = "E:\\Projects\\C++\\ADS_2023_CA2_D_F\\XmlFiles\\vs_sample_simple.xml";
+	string filename = "E:\\Projects\\C++\\ADS_2023_CA2_D_F\\XmlFiles\\unity_sample.xml";
 	string xml = loader.loadFile(filename);
 	
 	cout << xml << endl;
 	cout <<boolalpha<< parser.validateXML(xml) << endl;
+	Tree<XmlNode*>* tree = parser.parseXml(xml);
+	if (tree != nullptr)
+	{
+		cout << "Parsed XML Tree:" << endl;
+		TreeIterator<XmlNode*> iter2(tree);  // Pass the actual tree pointer
+		displayTree(iter2, "");
+	}
+	else
+	{
+		cout << "XML is invalid" << endl;
+	}
 }
 template<class T>
 void displayTree(TreeIterator<T> iter, string indent)

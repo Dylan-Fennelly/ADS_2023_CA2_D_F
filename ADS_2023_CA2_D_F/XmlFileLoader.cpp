@@ -2,18 +2,22 @@
 #include <fstream>
 #include <sstream>
 
-string XmlFileLoader::loadFile(string filePath) {
+string XmlFileLoader::loadFile(string filePath)
+{
     ifstream file(filePath);
     ostringstream fileContentStream;
 
-    if (file.is_open()) {
+    if (file.is_open()) 
+    {
         string line;
-        while (getline(file, line)) {
+        while (getline(file, line)) 
+        {
             fileContentStream << line << '\n';  // Preserve line breaks
         }
         file.close();
     }
-    else {
+    else 
+    {
         throw std::exception("Error Opening File");
     }
 

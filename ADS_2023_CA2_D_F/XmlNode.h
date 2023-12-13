@@ -14,6 +14,7 @@ public :
 	virtual NodeType getType() const = 0; /*Virtual function to get the type of the node*/
 	virtual string display() const = 0; /*Virtual function to display the node*/
 	
-protected:
 	string name; //String for the name of the xml element
+
+	virtual void setName(const string& name) = 0; //Function to set the name of the xml element
 };

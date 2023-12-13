@@ -16,3 +16,8 @@ string FolderNode::display() const
 	return "Folder: " + name;
 	
 }
+
+void FolderNode::setName(const string& name)
+{
+	this-> name = name;
+}

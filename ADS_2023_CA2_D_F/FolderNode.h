@@ -7,5 +7,6 @@ public:
 	NodeType getType() const override;
 	string getName() const ;
 	string display () const override;
+	void setName(const string& name) override;
 };
 
