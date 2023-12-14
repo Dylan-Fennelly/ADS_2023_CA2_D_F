@@ -37,6 +37,8 @@ int main()
 	iter.root();
 	displayTree(iter, "");
 	
+	
+
 	XmlParser parser;
 
 
@@ -68,7 +70,22 @@ int main()
 //displayTree(iter3, "");
 	manager->displayTree();
 	cout<<manager->countItemsinTree();
+	cout<<"size " +manager->calculateMemoryUsage("");
+
+	
+   //manager->pruneAndCopyNonEmptyFolders();
+   //manager->pruneAndCopyNonEmptyFolders();
+   //manager->pruneAndCopyNonEmptyFolders();
+
+	//manager->displayTree();
+	cout<<manager->countItemsinTree();
+	int size = manager->calculateMemoryUsage("ADS_Single_LinkedList_Exercises/.git");
+	
+	cout <<";"<< size << endl;
 }
+
+
+
 template<class T>
 void displayTree(TreeIterator<T> iter, string indent)
 {

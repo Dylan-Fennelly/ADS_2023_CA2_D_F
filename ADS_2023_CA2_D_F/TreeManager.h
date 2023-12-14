@@ -13,12 +13,15 @@ public:
     void displayTree();
     int countItemsinTree();
 
+    int calculateMemoryUsage(string path);
+
+    void calculateMemoryUsageRecursive(TreeIterator<XmlNode*> treeIterator, int& total);
+
 private:
     
     XmlParser* xmlParser;
     XmlFileLoader* xmlFileLoader;
-    void displayTreeRecursive(TreeIterator<XmlNode*> treeIterator, string indent);
-   
+    void displayTreeRecursive(TreeIterator<XmlNode*> treeIterator, string indent);   
 };
 
 
