@@ -34,8 +34,7 @@ This class has 2 derived classes called xmlFile and xmlFolder. The xmlFile class
 
 * name
 * length 
-* type
-* 
+* type    
 The xmlFolder class has 1 attribute:
 * name
 
