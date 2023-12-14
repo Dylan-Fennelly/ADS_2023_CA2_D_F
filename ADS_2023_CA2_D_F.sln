@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ADS_2023_CA2_D_F", "ADS_202
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TreeTest", "TreeTest\TreeTest.vcxproj", "{D84C23BF-A72E-44A1-B06F-5FD7744194E3}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Stage One Testing - Loading and parsing Xml", "Stage One Testing - Loading and parsing Xml\Stage One Testing - Loading and parsing Xml.vcxproj", "{CA5E29B6-6E4A-4CE5-BE1C-CD2EA629DFF2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +33,14 @@ Global
 		{D84C23BF-A72E-44A1-B06F-5FD7744194E3}.Release|x64.Build.0 = Release|x64
 		{D84C23BF-A72E-44A1-B06F-5FD7744194E3}.Release|x86.ActiveCfg = Release|Win32
 		{D84C23BF-A72E-44A1-B06F-5FD7744194E3}.Release|x86.Build.0 = Release|Win32
+		{CA5E29B6-6E4A-4CE5-BE1C-CD2EA629DFF2}.Debug|x64.ActiveCfg = Debug|x64
+		{CA5E29B6-6E4A-4CE5-BE1C-CD2EA629DFF2}.Debug|x64.Build.0 = Debug|x64
+		{CA5E29B6-6E4A-4CE5-BE1C-CD2EA629DFF2}.Debug|x86.ActiveCfg = Debug|Win32
+		{CA5E29B6-6E4A-4CE5-BE1C-CD2EA629DFF2}.Debug|x86.Build.0 = Debug|Win32
+		{CA5E29B6-6E4A-4CE5-BE1C-CD2EA629DFF2}.Release|x64.ActiveCfg = Release|x64
+		{CA5E29B6-6E4A-4CE5-BE1C-CD2EA629DFF2}.Release|x64.Build.0 = Release|x64
+		{CA5E29B6-6E4A-4CE5-BE1C-CD2EA629DFF2}.Release|x86.ActiveCfg = Release|Win32
+		{CA5E29B6-6E4A-4CE5-BE1C-CD2EA629DFF2}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -15,6 +15,7 @@ public :
 	virtual string display() const = 0; /*Virtual function to display the node*/
 	
 	string name; //String for the name of the xml element
+	string getName();
 
 	virtual void setName(const string& name) = 0; //Function to set the name of the xml element
 };
