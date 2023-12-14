@@ -3,6 +3,8 @@
 #include "FileNode.h"
 #include <vector>
 #include <queue>
+#include<thread>
+#include<chrono>
 TreeManager::TreeManager(XmlParser* parser, XmlFileLoader* xmlFileLoader)
 {
 	this->xmlParser = parser;
@@ -49,6 +51,7 @@ void TreeManager::displayTreeRecursive(TreeIterator<XmlNode*> treeIterator, stri
 {
 
 	cout << indent << treeIterator.node->data->display();
+	this_thread::sleep_for(std::chrono::milliseconds(150));
 	if (treeIterator.childValid())
 	{
 		cout << "(" << endl;

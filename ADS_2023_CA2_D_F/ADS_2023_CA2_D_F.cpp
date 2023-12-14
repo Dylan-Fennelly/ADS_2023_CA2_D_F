@@ -1,6 +1,3 @@
-// ADS_2023_CA2_D_F.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include <iostream>
 #include "Tree.h"
 #include <string>
@@ -11,114 +8,175 @@
 #include "XmlFileLoader.h"
 #include "XmlParser.h"
 #include "TreeManager.h"
-using namespace std;
-template<class T>
-void displayTree(TreeIterator<T> iter, string indent);
+#include "FilePath.h"
+#include<thread>
+#include<chrono>
 
+using namespace std;
+
+void displayMenu();
+void loadXml(TreeManager& treeManager);
+void loadXmlOptions();
+//If you want the menu to go fast ctrl F and replace all this_thread::sleep_for(std::chrono::milliseconds(150));
+//with this_thread:://sleep_for(std::chrono::milliseconds(200));
 int main()
 {
-	FolderNode* test = new FolderNode("Root");
-   // cout << test.getType() << endl;
-    FileNode* fileTest = new FileNode("test", 12, ".exe");
-   // cout << fileTest.getType() << endl;
-    Tree<XmlNode*> root(test);
-    TreeIterator<XmlNode*> iter(&root);
-    iter.appendChild(fileTest);
-   // cout << iter.item()->getType() << endl;
-	FileNode* filetest2 = new FileNode("Test 2", 20, ".bat");
-	iter.appendChild(filetest2);
-	FolderNode* folder2 = new FolderNode("utils");
-	iter.appendChild(folder2);
-	iter.childForth();
-	iter.childForth();
-	iter.down();
-	FileNode* filetest3 = new FileNode("test 3", 100, ".exe");
-	iter.appendChild(filetest3);
-	iter.root();
-	displayTree(iter, "");
-	
-	
+    XmlParser* xmlParser = new XmlParser();
+    XmlFileLoader* xmlFileLoader = new XmlFileLoader();
+    TreeManager treeManager(xmlParser, xmlFileLoader);
 
-	XmlParser parser;
+    int choice;
+    string filename;
+    string folderName;
+    bool deep;
 
+    while (true)
+    {
+        displayMenu();
+        this_thread::sleep_for(std::chrono::milliseconds(150));
+        cout << "Enter your choice: ";
+        cin >> choice;
 
-	XmlFileLoader loader;
-	string filename = "E:\\Projects\\C++\\ADS_2023_CA2_D_F\\XmlFiles\\vs_sample_simple.xml";
-	string xml = loader.loadFile(filename);
-	
-	cout << xml << endl;
-	cout <<boolalpha<< parser.validateXML(xml) << endl;
-	Tree<XmlNode*>* tree = parser.parseXml(xml);
-	if (tree != nullptr)
-	{
-		cout << "Parsed XML Tree:" << endl;
-		TreeIterator<XmlNode*> iter2(tree);  // Pass the actual tree pointer
-		//displayTree(iter2, "");
-	}
-	else
-	{
-		cout << "XML is invalid" << endl;
-	}
-	XmlParser* parser2 = new XmlParser();
-	XmlFileLoader* loader2 = new XmlFileLoader();
+        if (cin.fail())
+        {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Invalid input. Please enter a valid choice." << endl;
+            this_thread::sleep_for(std::chrono::milliseconds(150));
+            continue;
+        }
 
-	TreeManager* manager = new TreeManager(parser2,loader2);
-	manager->loadTreeFromXML("E:\\Projects\\C++\\ADS_2023_CA2_D_F\\XmlFiles\\vs_sample_mple.xml");
+        switch (choice)
+        {
+        case 1:
+            loadXml(treeManager);
+            break;
+        case 2:
+            treeManager.displayTree();
+            break;
+        case 3:
+            this_thread::sleep_for(std::chrono::milliseconds(150));
+            cout << "Number of items in the tree: " << treeManager.countItemsinTree() << endl;
+            this_thread::sleep_for(std::chrono::milliseconds(150));
+            cout << "\n";
+            break;
+        case 4:
+            this_thread::sleep_for(std::chrono::milliseconds(150));
+            cout << "Enter the name of the file or folder: ";
+            cin >> filename;
+            this_thread::sleep_for(std::chrono::milliseconds(150));
+            cout << treeManager.findFileOrFolder(filename) << endl;
+            cout << "\n";
+            break;
+        case 5:
+            this_thread::sleep_for(std::chrono::milliseconds(150));
+            cout << "Enter the name of folder: ";
+            this_thread::sleep_for(std::chrono::milliseconds(150));
+            cin >> folderName;
+            this_thread::sleep_for(std::chrono::milliseconds(150));
+            cout << "Enter 1 for deep search or 0 for local search: ";
+            this_thread::sleep_for(std::chrono::milliseconds(150));
+            cin >> deep;
+            if (cin.fail())
+            {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "Invalid input. Please enter a valid choice." << endl;
+                cout << "\n";
+                break;
+            }
+            this_thread::sleep_for(std::chrono::milliseconds(150));
+            cout << "Memory usage: " << treeManager.calculateMemoryUsage(folderName, deep) << endl;
+            cout << "\n";
+            break;
+        case 6:
+            cout << "Enter the name of the folder: ";
+            cin >> folderName;
+            treeManager.displayFolderContents(folderName);
+            break;
+        case 7:
+            treeManager.pruneTree();
+            break;
+        case 8:
+            exit(0);
+        default:
+            cout << "Invalid choice. Please enter a number between 1 and 8." << endl;
+            break;
+        }
+    }
 
-	cout << "Break";
-	//TreeIterator<XmlNode*> iter3(manager->xmlTree);// Pass the actual tree pointer
-//displayTree(iter3, "");
-	manager->displayTree();
-	cout<<manager->countItemsinTree();
-
-	
-   //manager->pruneAndCopyNonEmptyFolders();
-   //manager->pruneAndCopyNonEmptyFolders();
-   //manager->pruneAndCopyNonEmptyFolders();
-
-	//manager->displayTree();
-	cout<<manager->countItemsinTree();
-	int size = manager->calculateMemoryUsage("ADS_Single_LinkedList_Exercises/.git",false);
-	
-	cout <<";"<< size << endl;
-	cout << "deep" << manager->calculateMemoryUsage("ADS_Single_LinkedList_Exercises", true)<<endl;
-	cout << manager->findFileOrFolder(".") << endl;
-
-	manager->displayFolderContents(".git");
-	manager ->displayTree();
-	manager->pruneTree();
-	cout<<"After Prune"<<endl;
-	manager->displayTree();
+    return 0;
 }
 
-
-
-template<class T>
-void displayTree(TreeIterator<T> iter, string indent)
+void loadXml(TreeManager& treeManager)
 {
-	cout << indent << iter.node->data->display();
-	if (iter.childValid())
-	{
-		cout << "(" <<endl;
-	
-	while (iter.childValid())
-	{
-		TreeIterator<T> iter2(iter.childIter.currentNode->data);
-		displayTree(iter2, "\t" + indent);
-		iter.childForth();
-	}
-	cout <<indent<< ")" ;
-	}
-	cout << endl;
+    loadXmlOptions();
+    int choice;
+    this_thread::sleep_for(std::chrono::milliseconds(150));
+    cout << "Enter your choice: ";
+    cin >> choice;
+
+    if (cin.fail())
+    {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Invalid input. Please enter a valid choice." << endl;
+        return;
+    }
+
+    switch (choice)
+    {
+    case 1:
+        treeManager.loadTreeFromXML(FilePath::VS_SAMPLE_SIMPLE);
+        break;
+    case 2:
+        treeManager.loadTreeFromXML(FilePath::VS_SAMPLE);
+        break;
+    case 3:
+        treeManager.loadTreeFromXML(FilePath::UNITY_SAMPLE);
+        break;
+    default:
+        cout << "Invalid choice. Please enter a number between 1 and 3." << endl;
+        break;
+    }
 }
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
+void displayMenu()
+{
+    cout << "------------------------" << endl;
+    cout << "        Main Menu       " << endl;
+    cout << "------------------------" << endl;
+    this_thread::sleep_for(std::chrono::milliseconds(150));
+    cout << "1. Load Tree from XML" << endl;
+    this_thread::sleep_for(std::chrono::milliseconds(150));
+    cout << "2. Display Tree" << endl;
+    this_thread::sleep_for(std::chrono::milliseconds(150));
+    cout << "3. Count Items in Tree" << endl;
+    this_thread::sleep_for(std::chrono::milliseconds(150));
+    cout << "4. Find File or Folder" << endl;
+    this_thread::sleep_for(std::chrono::milliseconds(150));
+    cout << "5. Calculate Memory Usage" << endl;
+    this_thread::sleep_for(std::chrono::milliseconds(150));
+    cout << "6. Display Folder Contents" << endl;
+    this_thread::sleep_for(std::chrono::milliseconds(150));
+    cout << "7. Prune Tree" << endl;
+    this_thread::sleep_for(std::chrono::milliseconds(150));
+    cout << "8. Exit" << endl;
+    this_thread::sleep_for(std::chrono::milliseconds(150));
+    cout << "------------------------" << endl;
+}
 
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+void loadXmlOptions()
+{
+    cout << "------------------------" << endl;
+    cout << "      Load XML Menu     " << endl;
+    cout << "------------------------" << endl;
+    this_thread::sleep_for(std::chrono::milliseconds(150));
+    cout << "1. Load Simple VS Example" << endl;
+    this_thread::sleep_for(std::chrono::milliseconds(150));
+    cout << "2. Load VS Example" << endl;
+    this_thread::sleep_for(std::chrono::milliseconds(150));
+    cout << "3. Load Unity Example" << endl;
+    this_thread::sleep_for(std::chrono::milliseconds(150));
+    cout << "------------------------" << endl;
+}
