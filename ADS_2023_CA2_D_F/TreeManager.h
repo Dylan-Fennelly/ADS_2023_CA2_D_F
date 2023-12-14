@@ -11,6 +11,7 @@ public:
     Tree<XmlNode*>* xmlTree = nullptr;
     bool loadTreeFromXML(string path);
     void displayTree();
+    int countItemsinTree();
 
 private:
     

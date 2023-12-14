@@ -58,7 +58,7 @@ int main()
 		cout << "XML is invalid" << endl;
 	}
 	XmlParser* parser2 = new XmlParser();
-XmlFileLoader* loader2 = new XmlFileLoader();
+	XmlFileLoader* loader2 = new XmlFileLoader();
 
 	TreeManager* manager = new TreeManager(parser2,loader2);
 	manager->loadTreeFromXML("E:\\Projects\\C++\\ADS_2023_CA2_D_F\\XmlFiles\\vs_sample_simple.xml");
@@ -67,7 +67,7 @@ XmlFileLoader* loader2 = new XmlFileLoader();
 	TreeIterator<XmlNode*> iter3(manager->xmlTree);// Pass the actual tree pointer
 //displayTree(iter3, "");
 	manager->displayTree();
-
+	cout<<manager->countItemsinTree();
 }
 template<class T>
 void displayTree(TreeIterator<T> iter, string indent)

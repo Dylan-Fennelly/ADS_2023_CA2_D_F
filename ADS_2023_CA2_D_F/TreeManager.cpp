@@ -23,9 +23,15 @@ bool TreeManager::loadTreeFromXML(string path)
 }
 void TreeManager::displayTree()
 {
+	if(this->xmlTree == nullptr)
+	{
+		cout << "Tree is empty" << endl;
+		return;
+	}
 	TreeIterator<XmlNode*> iter(this->xmlTree);
 	displayTreeRecursive(iter, "");
 }
+
 void TreeManager::displayTreeRecursive(TreeIterator<XmlNode*> treeIterator, string indent)
 {
 
@@ -43,5 +49,13 @@ void TreeManager::displayTreeRecursive(TreeIterator<XmlNode*> treeIterator, stri
 		cout << indent << ")";
 	}
 	cout << endl;
+}
+int TreeManager::countItemsinTree()
+{
+	if(this->xmlTree == nullptr)
+	{
+		return 0;
+	}
+	return this->xmlTree->count();
 }
 
