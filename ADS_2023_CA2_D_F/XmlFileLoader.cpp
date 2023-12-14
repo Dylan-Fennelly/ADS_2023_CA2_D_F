@@ -2,7 +2,7 @@
 #include <fstream>
 #include <sstream>
 
-string XmlFileLoader::loadFile(string filePath)
+string XmlFileLoader::loadFile(string filePath) 
 {
     ifstream file(filePath);
     ostringstream fileContentStream;

@@ -183,10 +183,6 @@ Tree<XmlNode*>* XmlParser::parseXml(string& xml)
             // Move up after encountering "/dir"
             treeIterator.up();
         }
-        else
-        {
-            // Handle other tags (if any) here
-        }
     }
 
     return tree;

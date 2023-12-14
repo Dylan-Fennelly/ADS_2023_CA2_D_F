@@ -4,6 +4,6 @@ using namespace std;
 class XmlFileLoader
 {
 public:
-	string loadFile(string filePath);
+	string loadFile(string filePath) ;
 };
 

@@ -10,6 +10,7 @@
 #include "TreeIterator.h"
 #include "XmlFileLoader.h"
 #include "XmlParser.h"
+#include "TreeManager.h"
 using namespace std;
 template<class T>
 void displayTree(TreeIterator<T> iter, string indent);
@@ -40,7 +41,7 @@ int main()
 
 
 	XmlFileLoader loader;
-	string filename = "E:\\Projects\\C++\\ADS_2023_CA2_D_F\\XmlFiles\\unity_sample.xml";
+	string filename = "E:\\Projects\\C++\\ADS_2023_CA2_D_F\\XmlFiles\\vs_sample_simple.xml";
 	string xml = loader.loadFile(filename);
 	
 	cout << xml << endl;
@@ -50,12 +51,23 @@ int main()
 	{
 		cout << "Parsed XML Tree:" << endl;
 		TreeIterator<XmlNode*> iter2(tree);  // Pass the actual tree pointer
-		displayTree(iter2, "");
+		//displayTree(iter2, "");
 	}
 	else
 	{
 		cout << "XML is invalid" << endl;
 	}
+	XmlParser* parser2 = new XmlParser();
+XmlFileLoader* loader2 = new XmlFileLoader();
+
+	TreeManager* manager = new TreeManager(parser2,loader2);
+	manager->loadTreeFromXML("E:\\Projects\\C++\\ADS_2023_CA2_D_F\\XmlFiles\\vs_sample_simple.xml");
+
+	cout << "Break";
+	TreeIterator<XmlNode*> iter3(manager->xmlTree);// Pass the actual tree pointer
+//displayTree(iter3, "");
+	manager->displayTree();
+
 }
 template<class T>
 void displayTree(TreeIterator<T> iter, string indent)
