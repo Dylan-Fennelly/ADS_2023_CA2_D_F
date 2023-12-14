@@ -243,44 +243,22 @@ int TreeManager::countItemsinTree()
 	}
 	return this->xmlTree->count();
 }
-/*Determine the Amount of Memory Used by a Given Folder Using a Breadth-First Algorithm:
 
-Implementation:
-Implement a function (e.g., calculateMemoryUsage) that takes a folder path as a parameter.
-Traverse the folder's tree using a breadth-first algorithm.
-Sum the memory usage of all items within the folder (files and subfolders).*/
-//A folder path is the order the folder decend in the tree
-//eg ADS_Single_LinkedList_Exercises/git
-//We need to take this string and split it, using the / as a delimiter
-//then we do a breath first search on the tree
-//if we dont find the specified file we return -1
-//if we do find it we then do the children of the folder and add up the memory usage
-//which is the getfileLength() on the file nodes
-//We need to to check the type of the xml node and if is NodeType::FILE
-//We use dynamic cast to access the function as the base class doesnt have access to the derived class functions
-//We then add the memory usage to the total
-//We then return the total
-//Example of breath first search
-/*void printBFS(Tree<string> tree)
+int TreeManager::calculateMemoryUsage(string path,bool deep)
 {
-	queue<Tree<string>> queue;
-	queue.push(tree);
-	while (!queue.empty())
+	switch (deep)
 	{
-		DListIterator<Tree<string>*> iter = queue.front().children->getIterator();
-		while (iter.isValid())
-		{
-			queue.push(*iter.item());
-			iter.advance();
-		}
-		cout << queue.front().data << ", ";
-		queue.pop();
-
+		case true:
+			return calculateMemoryUsageDeep(path);
+			break;
+		case false:
+			return calculateMemoryUsageLocalToFile(path);
+			break;
 	}
 
+}
 
-}*/
-int TreeManager::calculateMemoryUsage(string path)
+int TreeManager::calculateMemoryUsageLocalToFile(string path)
 {
 	if (xmlTree == nullptr || path == "")
 	{
@@ -344,16 +322,206 @@ int TreeManager::calculateMemoryUsage(string path)
 
 	return -1;
 }
+int TreeManager::calculateMemoryUsageDeep(string path)
+{
+	if (xmlTree == nullptr || path == "")
+	{
+		return -1;
+	}
+
+	size_t pos = 0;
+	string token;
+	vector<string> pathVector;
+	while ((pos = path.find("/")) != string::npos)
+	{
+		token = path.substr(0, pos);
+		pathVector.push_back(token);
+		path.erase(0, pos + 1);
+	}
+	pathVector.push_back(path);
+
+	queue<Tree<XmlNode*>*> queue;
+	queue.push(xmlTree);
+
+	int totalMemoryUsage = 0;  // Total memory usage for all files in folders below the specified folder
+
+	// Check if there is only one argument, and it matches the root
+	if (pathVector.size() == 1 && pathVector[0] == xmlTree->data->getName())
+	{
+		cout << "Calculating total memory usage for the entire tree:" << endl;
+		calculateTotalMemoryUsage(xmlTree, totalMemoryUsage);
+		cout << "Total memory usage: " << totalMemoryUsage << endl;
+		return totalMemoryUsage;
+	}
+
+	while (!queue.empty())
+	{
+		Tree<XmlNode*>* currentNode = queue.front();
+		queue.pop();
+
+		cout << "Current Node: " << currentNode->data->getName() << endl;
+
+		// Check if the current node matches the current path element
+		if (pathVector.empty() || currentNode->data->getName() == pathVector.front())
+		{
+			// Remove the front element of the path vector
+			if (!pathVector.empty())
+			{
+				pathVector.erase(pathVector.begin());
+			}
+
+			// If this is the last level of the path, start calculating memory
+			if (pathVector.empty())
+			{
+				// Iterate through children and add their memory usage to the total
+				DListIterator<Tree<XmlNode*>*> childIter = (*currentNode->children).getIterator();
+				while (childIter.isValid())
+				{
+					FileNode* fileNode = dynamic_cast<FileNode*>(childIter.item()->data);
+
+					if (fileNode != nullptr)
+					{
+						cout << "File: " << fileNode->getName() << " " << fileNode->getFileLength() << "Bytes  " << fileNode->getType() << endl;
+						totalMemoryUsage += fileNode->getFileLength();
+					}
+
+					// Enqueue children for further exploration
+					queue.push(childIter.item());
+					childIter.advance();
+				}
+
+				// Return the total memory usage for the folder
+				cout << "Total memory usage: " << totalMemoryUsage << endl;
+				return totalMemoryUsage;
+			}
+			else
+			{
+				// Enqueue children for further exploration
+				DListIterator<Tree<XmlNode*>*> childIter = (*currentNode->children).getIterator();
+				while (childIter.isValid())
+				{
+					queue.push(childIter.item());
+					childIter.advance();
+				}
+			}
+		}
+		else
+		{
+			// Enqueue children for further exploration
+			DListIterator<Tree<XmlNode*>*> childIter = (*currentNode->children).getIterator();
+			while (childIter.isValid())
+			{
+				queue.push(childIter.item());
+				childIter.advance();
+			}
+		}
+	}
+
+	// If the path was not found, return -1
+	cout << "Path not found" << endl;
+	return -1;
+}
+
+void TreeManager::calculateTotalMemoryUsage(Tree<XmlNode*>* subtree, int& totalMemoryUsage)
+{
+	// Recursively calculate total memory usage for the entire subtree
+	DListIterator<Tree<XmlNode*>*> childIter = (*subtree->children).getIterator();
+	while (childIter.isValid())
+	{
+		FileNode* fileNode = dynamic_cast<FileNode*>(childIter.item()->data);
+
+		if (fileNode != nullptr)
+		{
+			totalMemoryUsage += fileNode->getFileLength();
+		}
+
+		// Recursive call for child subtree
+		calculateTotalMemoryUsage(childIter.item(), totalMemoryUsage);
+		childIter.advance();
+	}
+}
+//string TreeManager::findFileOrFolder(string filename)
+//{
+//	if (xmlTree == nullptr || filename == "")
+//	{
+//		return "Tree is empty or filename is empty.";
+//	}
+//
+//	// Create a stack for DFS traversal
+//	stack<TreeIterator<XmlNode*>> dfsStack;
+//
+//	// Start DFS from the root
+//	TreeIterator<XmlNode*> rootIterator(xmlTree);
+//	dfsStack.push(rootIterator);
+//
+//	while (!dfsStack.empty())
+//	{
+//		// Get the top node from the stack
+//		TreeIterator<XmlNode*> currentIterator = dfsStack.top();
+//		dfsStack.pop();
+//
+//		// Check if the current node's data matches the specified filename
+//		if (currentIterator.node->data->getName() == filename)
+//		{
+//			// Generate the path by backtracking through the stack
+//			string path = "";
+//			while (!dfsStack.empty())
+//			{
+//				path = "/" + currentIterator.node->data->getName() + path;
+//				currentIterator = dfsStack.top();
+//				dfsStack.pop();
+//			}
+//
+//			// Add the root node's name to the path
+//			path = currentIterator.node->data->getName() + path;
+//
+//			return path;
+//		}
+//
+//		// Push children onto the stack for further exploration
+//		if (currentIterator.childValid())
+//		{
+//			dfsStack.push(currentIterator);
+//			dfsStack.push(TreeIterator<XmlNode*>(currentIterator.childIter.currentNode->data));
+//		}
+//	}
+//
+//	return "File or folder not found.";
+//}
+string TreeManager::findFileOrFolderRecursive(TreeIterator<XmlNode*> iterator, string partialFilename)
+{
+	// Base case: check if the current node is the file or folder we are looking for
+	if (xmlTree == nullptr|| partialFilename.empty())
+	{
+		return "Tree is empty or filename is empty.";
+	}
 
 
+	// Check if the current node's name contains the specified partialFilename
+	if (iterator.node->data->getName().find(partialFilename) != string::npos) {
+		// If found, generate the path
+		return iterator.node->data->getName();
+	}
 
+	// Recursively search in the children
+	DListIterator<Tree<XmlNode*>*> childIter = (*iterator.node->children).getIterator();
+	while (childIter.isValid()) {
+		string childPath = findFileOrFolderRecursive(TreeIterator<XmlNode*>(childIter.item()), partialFilename);
+		if (childPath != "File or folder not found.") {
+			// Concatenate the current node's name and return the path
+			return iterator.node->data->getName() + "/" + childPath;
+		}
+		childIter.advance();
+	}
 
+	// If not found in the current node's children, return "File or folder not found."
+	return "File or folder not found.";
+}
 
+// Wrapper function to start the recursive search from the root
+string TreeManager::findFileOrFolder(string partialFilename)
+{
+	TreeIterator<XmlNode*> rootIterator(xmlTree);
+	return findFileOrFolderRecursive(rootIterator, partialFilename);
+}
 
-
-
-
-
-
-
- 

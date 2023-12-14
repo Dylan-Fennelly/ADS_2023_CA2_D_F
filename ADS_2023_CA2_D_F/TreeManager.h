@@ -12,12 +12,18 @@ public:
     bool loadTreeFromXML(string path);
     void displayTree();
     int countItemsinTree();
+    string findFileOrFolder(string filename);
+    string findFileOrFolderRecursive(TreeIterator<XmlNode*> iterator, string filename);
+    int calculateMemoryUsage(string path, bool deep);
 
-    int calculateMemoryUsage(string path);
-
-    void calculateMemoryUsageRecursive(TreeIterator<XmlNode*> treeIterator, int& total);
 
 private:
+    int calculateMemoryUsageLocalToFile(string path);
+    int calculateMemoryUsageDeep(string path);
+
+    void calculateTotalMemoryUsage(Tree<XmlNode*>* subtree, int& totalMemoryUsage);
+
+
     
     XmlParser* xmlParser;
     XmlFileLoader* xmlFileLoader;

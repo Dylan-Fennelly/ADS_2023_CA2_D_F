@@ -31,7 +31,7 @@ namespace StageTwoTestingManipulatingandUsingTree
 		}
 		
 	};
-	TEST_CLASS(TestcalculateMemoryUsage)
+	TEST_CLASS(TestcalculateMemoryUsageLocal)
 	{
 		TEST_METHOD(TestCalculateMemoryUsagePathFound)
 		{
@@ -41,7 +41,7 @@ namespace StageTwoTestingManipulatingandUsingTree
 			TreeManager treeManager(xmlParser, xmlFileLoader);
 			treeManager.loadTreeFromXML("E:\\Projects\\C++\\ADS_2023_CA2_D_F\\XmlFiles\\vs_sample_simple.xml");
 
-			int actual = treeManager.calculateMemoryUsage("ADS_Single_LinkedList_Exercises/.git");
+			int actual = treeManager.calculateMemoryUsage("ADS_Single_LinkedList_Exercises/.git",false);
 
 			
 			int expected = 449;
@@ -54,7 +54,7 @@ namespace StageTwoTestingManipulatingandUsingTree
 			XmlFileLoader* xmlFileLoader = new XmlFileLoader();
 			TreeManager treeManager(xmlParser, xmlFileLoader);
 			treeManager.loadTreeFromXML("E:\\Projects\\C++\\ADS_2023_CA2_D_F\\XmlFiles\\vs_sample_simple.xml");
-			int actual = treeManager.calculateMemoryUsage("ADS_Single_LinkedList_Exercises/.git1");
+			int actual = treeManager.calculateMemoryUsage("ADS_Single_LinkedList_Exercises/.git1",false);
 			int expected = -1;
 			Assert::AreEqual(expected, actual);
 		}
@@ -65,7 +65,7 @@ namespace StageTwoTestingManipulatingandUsingTree
 			XmlFileLoader* xmlFileLoader = new XmlFileLoader();
 			TreeManager treeManager(xmlParser, xmlFileLoader);
 			treeManager.loadTreeFromXML("E:\\Projects\\C++\\ADS_2023_CA2_D_F\\XmlFiles\\vs_sample_simple.xml");
-			int actual = treeManager.calculateMemoryUsage("");
+			int actual = treeManager.calculateMemoryUsage("",false);
 			int expected = -1;
 			Assert::AreEqual(expected, actual);
 		}
@@ -75,10 +75,101 @@ namespace StageTwoTestingManipulatingandUsingTree
 			XmlParser* xmlParser = new XmlParser();
 			XmlFileLoader* xmlFileLoader = new XmlFileLoader();
 			TreeManager treeManager(xmlParser, xmlFileLoader);
-			int actual = treeManager.calculateMemoryUsage("ADS_Single_LinkedList_Exercises/.git");
+			int actual = treeManager.calculateMemoryUsage("ADS_Single_LinkedList_Exercises/.git", false);
 			int expected = -1;
+			Assert::AreEqual(expected, actual);
+		}
+	};
+	TEST_CLASS(TestcalculateMemoryUsageDeep)
+	{
+		TEST_METHOD(TestCalculateMemoryUsagePathFoundDeepfromgit)
+		{
+
+			XmlParser* xmlParser = new XmlParser();
+			XmlFileLoader* xmlFileLoader = new XmlFileLoader();
+			TreeManager treeManager(xmlParser, xmlFileLoader);
+			treeManager.loadTreeFromXML("E:\\Projects\\C++\\ADS_2023_CA2_D_F\\XmlFiles\\vs_sample_simple.xml");
+
+			int actual = treeManager.calculateMemoryUsage("ADS_Single_LinkedList_Exercises/.git", true);
+			int expected = 449;
+			Assert::AreEqual(expected, actual);
+		}
+		TEST_METHOD(TestCalculateMemoryUsagePathFoundDeepfromroot)
+		{
+
+			XmlParser* xmlParser = new XmlParser();
+			XmlFileLoader* xmlFileLoader = new XmlFileLoader();
+			TreeManager treeManager(xmlParser, xmlFileLoader);
+			treeManager.loadTreeFromXML("E:\\Projects\\C++\\ADS_2023_CA2_D_F\\XmlFiles\\vs_sample_simple.xml");
+
+			int actual = treeManager.calculateMemoryUsage("ADS_Single_LinkedList_Exercises", true);
+			int expected = 2966521;
+			Assert::AreEqual(expected, actual);
+		}
+		TEST_METHOD(TestCalculateMemoryUsagePathFoundDeepfromdebug)
+		{
+			XmlParser* xmlParser = new XmlParser();
+			XmlFileLoader* xmlFileLoader = new XmlFileLoader();
+			TreeManager treeManager(xmlParser, xmlFileLoader);
+			treeManager.loadTreeFromXML("E:\\Projects\\C++\\ADS_2023_CA2_D_F\\XmlFiles\\vs_sample_simple.xml");
+
+			int actual = treeManager.calculateMemoryUsage("ADS_Single_LinkedList_Exercises/Debug", true);
+			int expected = 2966072;
 			Assert::AreEqual(expected, actual);
 		}
 
 	};
+	TEST_CLASS(TestfindFileOrFolderRecursive)
+	{
+		TEST_METHOD(TestfindFileOrFolderRecursivePathFound)
+		{
+
+			XmlParser* xmlParser = new XmlParser();
+			XmlFileLoader* xmlFileLoader = new XmlFileLoader();
+			TreeManager treeManager(xmlParser, xmlFileLoader);
+			treeManager.loadTreeFromXML("E:\\Projects\\C++\\ADS_2023_CA2_D_F\\XmlFiles\\vs_sample_simple.xml");
+
+			string actual = treeManager.findFileOrFolderRecursive(TreeIterator<XmlNode*>(treeManager.xmlTree), "HEAD");
+			string expected = "ADS_Single_LinkedList_Exercises/.git/HEAD";
+			Assert::AreEqual(expected, actual);
+		}
+		TEST_METHOD(TestfindFileOrFolderRecursivePathNotFound)
+		{
+
+			XmlParser* xmlParser = new XmlParser();
+			XmlFileLoader* xmlFileLoader = new XmlFileLoader();
+			TreeManager treeManager(xmlParser, xmlFileLoader);
+			treeManager.loadTreeFromXML("E:\\Projects\\C++\\ADS_2023_CA2_D_F\\XmlFiles\\vs_sample_simple.xml");
+
+			string actual = treeManager.findFileOrFolderRecursive(TreeIterator<XmlNode*>(treeManager.xmlTree), "HEAD1");
+			string expected = "File or folder not found.";
+			Assert::AreEqual(expected, actual);
+		}
+		TEST_METHOD(TestfindFileOrFolderRecursiveEmptyPath)
+		{
+
+			XmlParser* xmlParser = new XmlParser();
+			XmlFileLoader* xmlFileLoader = new XmlFileLoader();
+			TreeManager treeManager(xmlParser, xmlFileLoader);
+
+			string actual = treeManager.findFileOrFolderRecursive(TreeIterator<XmlNode*>(treeManager.xmlTree), "");
+			string expected = "Tree is empty or filename is empty.";
+			Assert::AreEqual(expected, actual);
+		}
+		TEST_METHOD(TestfindFileOrFolderRecursiveNullTree)
+		{
+
+			XmlParser* xmlParser = new XmlParser();
+			XmlFileLoader* xmlFileLoader = new XmlFileLoader();
+			TreeManager treeManager(nullptr, nullptr);
+
+			string actual = treeManager.findFileOrFolderRecursive(TreeIterator<XmlNode*>(treeManager.xmlTree), "HEAD");
+			string expected = "Tree is empty or filename is empty.";
+			Assert::AreEqual(expected, actual);
+		}
+	
+	};
+
+
+	
 }

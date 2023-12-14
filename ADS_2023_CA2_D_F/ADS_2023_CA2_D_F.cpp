@@ -70,7 +70,6 @@ int main()
 //displayTree(iter3, "");
 	manager->displayTree();
 	cout<<manager->countItemsinTree();
-	cout<<"size " +manager->calculateMemoryUsage("");
 
 	
    //manager->pruneAndCopyNonEmptyFolders();
@@ -79,9 +78,11 @@ int main()
 
 	//manager->displayTree();
 	cout<<manager->countItemsinTree();
-	int size = manager->calculateMemoryUsage("ADS_Single_LinkedList_Exercises/.git");
+	int size = manager->calculateMemoryUsage("ADS_Single_LinkedList_Exercises/.git",false);
 	
 	cout <<";"<< size << endl;
+	cout << "deep" << manager->calculateMemoryUsage("ADS_Single_LinkedList_Exercises", true)<<endl;
+	cout<<manager->findFileOrFolder(".");
 }
 
 
