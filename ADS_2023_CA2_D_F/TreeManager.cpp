@@ -3,187 +3,6 @@
 #include "FileNode.h"
 #include <vector>
 #include <queue>
-/*#pragma once
-#include "Tree.h"
-
-template <class T>
-class TreeIterator
-{
-public:
-	Tree<T> *node;
-	DListIterator<Tree<T>*> childIter;
-
-	TreeIterator(Tree<T>* root);
-	void resetIterator();
-	void root();
-	void up();
-	void down();
-	void childBack();
-	void childForth();
-	void childStart();
-	void childEnd();
-	void appendChild(T item);
-	void prependChild(T item);
-	void insertChildBefore(T item);
-	void insertChildAfter(T item);
-	void removeChild();
-	bool childValid();
-	T childItem();
-	T item();
-};
-template <class T>
-TreeIterator<T>::TreeIterator(Tree<T>* root)
-{
-	node = root;
-	resetIterator();
-}
-
-template <class T>
-void TreeIterator<T>::resetIterator()
-{
-	if (node != nullptr)
-	{
-		childIter = node->children->getIterator();
-	}
-	else
-	{
-		childIter = nullptr;
-	}
-}
-
-template <class T>
-void TreeIterator<T>::root()
-{
-	if (node->parent != nullptr)
-	{
-		node = node->parent;
-		root();
-	}
-	resetIterator();
-}
-
-template <class T>
-void TreeIterator<T>::up()
-{
-	if (node->parent != nullptr)
-	{
-		node = node->parent;
-
-	}
-	resetIterator();
-}
-
-template <class T>
-void TreeIterator<T>::down()
-{
-	if (childIter.isValid())
-	{
-		node = childIter.item();
-
-	}
-	resetIterator();
-}
-
-template <class T>
-void TreeIterator<T>::childBack()
-{
-	if (childIter.isValid())
-	{
-		childIter.previous();
-	}
-}
-
-template <class T>
-void TreeIterator<T>::childForth()
-{
-	if (childIter.isValid())
-	{
-		childIter.advance();
-	}
-}
-
-template <class T>
-void TreeIterator<T>::childStart()
-{
-	if (childIter.isValid())
-	{
-		childIter.start();
-	}
-}
-
-template <class T>
-void TreeIterator<T>::childEnd()
-{
-	if (childIter.isValid())
-	{
-		childIter.end();
-	}
-}
-
-template <class T>
-void TreeIterator<T>::appendChild(T item)
-{
-	Tree<T>* temp = new Tree<T>(item);
-	temp->parent = node;
-	node->children->append(temp);
-	resetIterator();
-}
-
-template <class T>
-void TreeIterator<T>::prependChild(T item)
-{
-	Tree<T>* temp = new Tree<T>(item);
-	temp->parent = node;
-	node->children->prepend(temp);
-	resetIterator();
-}
-
-template <class T>
-void TreeIterator<T>::insertChildBefore(T item)
-{
-	Tree<T> *temp = new Tree<T>(item);
-	temp->parent = node;
-	node->children->insert(childIter, temp);
-
-}
-
-template <class T>
-void TreeIterator<T>::insertChildAfter(T item)
-{
-
-	Tree<T> *temp = new Tree<T>(item);
-	temp->parent = node;
-	childIter.advance();
-	node->children->insert(childIter, temp);
-	childIter.previous();
-	childIter.previous();
-
-}
-
-template <class T>
-void TreeIterator<T>::removeChild()
-{
-	childIter = node->children->remove(childIter);
-
-}
-
-template <class T>
-bool TreeIterator<T>::childValid()
-{
-	return childIter.isValid();
-}
-
-template <class T>
-T TreeIterator<T>::childItem()
-{
-	return childIter->node->data;
-}
-
-template <class T>
-T TreeIterator<T>::item()
-{
-	return node->data;
-}*/
 TreeManager::TreeManager(XmlParser* parser, XmlFileLoader* xmlFileLoader)
 {
 	this->xmlParser = parser;
@@ -200,8 +19,18 @@ bool TreeManager::loadTreeFromXML(string path)
     {
         //Load the xml file using the xmlFileLoader
         //then parse using the parser and return the tree
-        string xml = this->xmlFileLoader->loadFile(path);
-        this->xmlTree = this->xmlParser->parseXml(xml);
+		try
+		{
+			string xml = this->xmlFileLoader->loadFile(path);
+			this->xmlTree = this->xmlParser->parseXml(xml);
+		}
+		catch (exception e)
+		{
+			cout << e.what() << endl;
+			return false;
+		}
+        
+        
     }
     return true;
 }
@@ -440,54 +269,6 @@ void TreeManager::calculateTotalMemoryUsage(Tree<XmlNode*>* subtree, int& totalM
 		childIter.advance();
 	}
 }
-//string TreeManager::findFileOrFolder(string filename)
-//{
-//	if (xmlTree == nullptr || filename == "")
-//	{
-//		return "Tree is empty or filename is empty.";
-//	}
-//
-//	// Create a stack for DFS traversal
-//	stack<TreeIterator<XmlNode*>> dfsStack;
-//
-//	// Start DFS from the root
-//	TreeIterator<XmlNode*> rootIterator(xmlTree);
-//	dfsStack.push(rootIterator);
-//
-//	while (!dfsStack.empty())
-//	{
-//		// Get the top node from the stack
-//		TreeIterator<XmlNode*> currentIterator = dfsStack.top();
-//		dfsStack.pop();
-//
-//		// Check if the current node's data matches the specified filename
-//		if (currentIterator.node->data->getName() == filename)
-//		{
-//			// Generate the path by backtracking through the stack
-//			string path = "";
-//			while (!dfsStack.empty())
-//			{
-//				path = "/" + currentIterator.node->data->getName() + path;
-//				currentIterator = dfsStack.top();
-//				dfsStack.pop();
-//			}
-//
-//			// Add the root node's name to the path
-//			path = currentIterator.node->data->getName() + path;
-//
-//			return path;
-//		}
-//
-//		// Push children onto the stack for further exploration
-//		if (currentIterator.childValid())
-//		{
-//			dfsStack.push(currentIterator);
-//			dfsStack.push(TreeIterator<XmlNode*>(currentIterator.childIter.currentNode->data));
-//		}
-//	}
-//
-//	return "File or folder not found.";
-//}
 string TreeManager::findFileOrFolderRecursive(TreeIterator<XmlNode*> iterator, string partialFilename)
 {
 	// Base case: check if the current node is the file or folder we are looking for
@@ -524,4 +305,117 @@ string TreeManager::findFileOrFolder(string partialFilename)
 	TreeIterator<XmlNode*> rootIterator(xmlTree);
 	return findFileOrFolderRecursive(rootIterator, partialFilename);
 }
+void TreeManager::displayFolderContents(string folderName)
+{
+	if (xmlTree == nullptr || folderName == "")
+	{
+		cout << "Tree is empty or folder name is empty." << endl;
+		return;
+	}
+
+	// Use findFileOrFolder to locate the specified folder
+	string folderPath = findFileOrFolder(folderName);
+
+	if (folderPath == "File or folder not found.")
+	{
+		cout << "Folder not found." << endl;
+		return;
+	}
+
+	// Use calculateMemoryUsageLocalToFile to get the total memory usage of the folder
+	int folderSize = calculateMemoryUsageLocalToFile(folderPath);
+
+	cout << "Contents of folder '" << folderName << "':" << endl;
+
+	// Start BFS from the root
+	queue<TreeIterator<XmlNode*>> bfsQueue;
+	TreeIterator<XmlNode*> rootIterator(xmlTree);
+	bfsQueue.push(rootIterator);
+
+	while (!bfsQueue.empty())
+	{
+		// Get the front node from the queue
+		TreeIterator<XmlNode*> currentIterator = bfsQueue.front();
+		bfsQueue.pop();
+
+		// Check if the current node's name matches the specified folder name
+		if (currentIterator.node->data->getName() == folderName)
+		{
+			// Iterate through children and print file nodes
+			DListIterator<Tree<XmlNode*>*> childIter = (*currentIterator.node->children).getIterator();
+			while (childIter.isValid())
+			{
+				FileNode* fileNode = dynamic_cast<FileNode*>(childIter.item()->data);
+
+				if (fileNode != nullptr)
+				{
+					// Display the file information
+					cout << fileNode->display() << endl;
+
+					// Optionally, you can accumulate the file size to display the total size later
+					// folderSize += fileNode->getFileLength();
+				}
+
+				// Enqueue children for further exploration
+				bfsQueue.push(TreeIterator<XmlNode*>(childIter.item()));
+				childIter.advance();
+			}
+
+			// Print the total size of the folder
+			cout << "Total size: " << folderSize << " Bytes" << endl;
+
+			// Return as we have processed the folder
+			return;
+		}
+
+		// Enqueue children for further exploration
+		DListIterator<Tree<XmlNode*>*> childIter = (*currentIterator.node->children).getIterator();
+		while (childIter.isValid())
+		{
+			bfsQueue.push(TreeIterator<XmlNode*>(childIter.item()));
+			childIter.advance();
+		}
+	}
+
+	// If the specified folder is not found, display an appropriate message
+	cout << "Folder not found." << endl;
+}
+void TreeManager::pruneTree()
+{
+	if (xmlTree == nullptr)
+	{
+		cout<<"Tree is empty"<<endl;
+		return;
+	}
+	pruneTreeRecursive(xmlTree);
+}
+
+void TreeManager::pruneTreeRecursive(Tree<XmlNode*>* currentNode)
+{
+	if (currentNode == nullptr)
+	{
+		return;
+	}
+
+	DListIterator<Tree<XmlNode*>*> childIter = (*currentNode->children).getIterator();
+	while (childIter.isValid())
+	{
+		pruneTreeRecursive(childIter.item());
+
+		// Remove empty folders
+		if (childIter.item()->data->getType() == NodeType::FOLDER && childIter.item()->children->head == nullptr)
+		{
+			delete childIter.item();
+			childIter = currentNode->children->remove(childIter);
+		}
+		else
+		{
+			childIter.advance();
+		}
+	}
+}
+
+
+
+
 

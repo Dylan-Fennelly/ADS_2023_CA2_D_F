@@ -119,6 +119,7 @@ bool XmlParser::validateXML(string& xmlContent) {
 
 Tree<XmlNode*>* XmlParser::parseXml(string& xml)
 {
+   
     Tree<XmlNode*>* tree = nullptr;
     TreeIterator<XmlNode*> treeIterator = nullptr; // Initialize with nullptr
 

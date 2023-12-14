@@ -129,7 +129,7 @@ namespace StageTwoTestingManipulatingandUsingTree
 			TreeManager treeManager(xmlParser, xmlFileLoader);
 			treeManager.loadTreeFromXML("E:\\Projects\\C++\\ADS_2023_CA2_D_F\\XmlFiles\\vs_sample_simple.xml");
 
-			string actual = treeManager.findFileOrFolderRecursive(TreeIterator<XmlNode*>(treeManager.xmlTree), "HEAD");
+			string actual = treeManager.findFileOrFolder("HEAD");
 			string expected = "ADS_Single_LinkedList_Exercises/.git/HEAD";
 			Assert::AreEqual(expected, actual);
 		}
@@ -141,7 +141,7 @@ namespace StageTwoTestingManipulatingandUsingTree
 			TreeManager treeManager(xmlParser, xmlFileLoader);
 			treeManager.loadTreeFromXML("E:\\Projects\\C++\\ADS_2023_CA2_D_F\\XmlFiles\\vs_sample_simple.xml");
 
-			string actual = treeManager.findFileOrFolderRecursive(TreeIterator<XmlNode*>(treeManager.xmlTree), "HEAD1");
+			string actual = treeManager.findFileOrFolder("HEAD1");
 			string expected = "File or folder not found.";
 			Assert::AreEqual(expected, actual);
 		}
@@ -152,7 +152,7 @@ namespace StageTwoTestingManipulatingandUsingTree
 			XmlFileLoader* xmlFileLoader = new XmlFileLoader();
 			TreeManager treeManager(xmlParser, xmlFileLoader);
 
-			string actual = treeManager.findFileOrFolderRecursive(TreeIterator<XmlNode*>(treeManager.xmlTree), "");
+			string actual = treeManager.findFileOrFolder("");
 			string expected = "Tree is empty or filename is empty.";
 			Assert::AreEqual(expected, actual);
 		}
@@ -163,11 +163,46 @@ namespace StageTwoTestingManipulatingandUsingTree
 			XmlFileLoader* xmlFileLoader = new XmlFileLoader();
 			TreeManager treeManager(nullptr, nullptr);
 
-			string actual = treeManager.findFileOrFolderRecursive(TreeIterator<XmlNode*>(treeManager.xmlTree), "HEAD");
+			string actual = treeManager.findFileOrFolder("HEAD");
 			string expected = "Tree is empty or filename is empty.";
 			Assert::AreEqual(expected, actual);
 		}
-	
+	};
+	TEST_CLASS(TestPruneTree)
+	{
+		TEST_METHOD(TestPruneTreeSimpleSample)
+		{
+			XmlParser* xmlParser = new XmlParser();
+			XmlFileLoader* xmlFileLoader = new XmlFileLoader();
+			TreeManager* treeManager = new TreeManager(xmlParser, xmlFileLoader);
+			treeManager->loadTreeFromXML("E:\\Projects\\C++\\ADS_2023_CA2_D_F\\XmlFiles\\vs_sample_simple.xml");
+			treeManager->pruneTree();
+			int expected = 9;
+			int actual = treeManager->countItemsinTree();
+			Assert::AreEqual(expected, actual);
+		}
+		TEST_METHOD(TestPruneTreeNullTree)
+		{
+			XmlParser* xmlParser = new XmlParser();
+			XmlFileLoader* xmlFileLoader = new XmlFileLoader();
+			TreeManager* treeManager = new TreeManager(xmlParser, xmlFileLoader);
+			treeManager->pruneTree();
+			int expected = 0;
+			int actual = treeManager->countItemsinTree();
+			Assert::AreEqual(expected, actual);
+		}
+		TEST_METHOD(TestPruneTreeEmptyTree)
+		{
+			XmlParser* xmlParser = new XmlParser();
+			XmlFileLoader* xmlFileLoader = new XmlFileLoader();
+			TreeManager* treeManager = new TreeManager(xmlParser, xmlFileLoader);
+			treeManager->loadTreeFromXML("E:\\Projects\\C++\\ADS_2023_CA2_D_F\\XmlFiles\\vs_sample_empty.xml");
+			treeManager->pruneTree();
+			int expected = 0;
+			int actual = treeManager->countItemsinTree();
+			Assert::AreEqual(expected, actual);
+		}
+
 	};
 
 

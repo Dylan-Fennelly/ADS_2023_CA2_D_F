@@ -63,10 +63,10 @@ int main()
 	XmlFileLoader* loader2 = new XmlFileLoader();
 
 	TreeManager* manager = new TreeManager(parser2,loader2);
-	manager->loadTreeFromXML("E:\\Projects\\C++\\ADS_2023_CA2_D_F\\XmlFiles\\vs_sample_simple.xml");
+	manager->loadTreeFromXML("E:\\Projects\\C++\\ADS_2023_CA2_D_F\\XmlFiles\\vs_sample_mple.xml");
 
 	cout << "Break";
-	TreeIterator<XmlNode*> iter3(manager->xmlTree);// Pass the actual tree pointer
+	//TreeIterator<XmlNode*> iter3(manager->xmlTree);// Pass the actual tree pointer
 //displayTree(iter3, "");
 	manager->displayTree();
 	cout<<manager->countItemsinTree();
@@ -82,7 +82,13 @@ int main()
 	
 	cout <<";"<< size << endl;
 	cout << "deep" << manager->calculateMemoryUsage("ADS_Single_LinkedList_Exercises", true)<<endl;
-	cout<<manager->findFileOrFolder(".");
+	cout << manager->findFileOrFolder(".") << endl;
+
+	manager->displayFolderContents(".git");
+	manager ->displayTree();
+	manager->pruneTree();
+	cout<<"After Prune"<<endl;
+	manager->displayTree();
 }
 
 
